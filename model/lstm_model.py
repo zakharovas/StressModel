@@ -5,7 +5,7 @@ from model import attention_layer
 
 
 class BidirectionalLSTMModel:
-    
+
     def __init__(self, name, syllables, emb_size, hid_size, out_size):
         self.name = name
         self.syllables = syllables
@@ -22,6 +22,7 @@ class BidirectionalLSTMModel:
             states, out_state = self._encode(batch)
             out_state = self.transform(out_state)
             h1 = self._predict(states, out_state, mask)
+        self.weights = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=name)
 
     def _encode(self, batch):
         lengths = self._get_lengths(batch, self.syllables.get_end_char())
