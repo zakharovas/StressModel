@@ -5,6 +5,7 @@ from model import attention_layer
 
 
 class BidirectionalLSTMModel:
+    
     def __init__(self, name, syllables, emb_size, hid_size, out_size):
         self.name = name
         self.syllables = syllables
@@ -44,6 +45,9 @@ class BidirectionalLSTMModel:
 
     def predict_without_attention(self, batch):
         return self.predict_with_attention(batch)[0]
+
+    def predict(self, batch):
+        return self.predict_without_attention(batch)
 
     @staticmethod
     def _get_lengths(batch, end_char):
