@@ -11,8 +11,8 @@ class BidirectionalLSTMModel:
         self.syllables = syllables
         with tf.variable_scope(name):
             self.emb_inp = L.Embedding(len(syllables), emb_size)
-            self.enc_forward = tf.nn.rnn_cell.LSTMCell(hid_size)
-            self.enc_back = tf.nn.rnn_cell.LSTMCell(hid_size)
+            self.enc_forward = tf.nn.rnn_cell.LSTMCell(hid_size/2)
+            self.enc_back = tf.nn.rnn_cell.LSTMCell(hid_size/2)
             self.out_layer = L.Dense(out_size, activation='softmax')
             self.transform = L.Dense(hid_size)
             self.attn = attention_layer.AttentionLayer(name, hid_size, hid_size, hid_size)

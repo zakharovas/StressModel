@@ -1,9 +1,10 @@
 import os
 import re
+from transform import syllable
 
 def prepare_file(file):
     separators = r'[!\.\?,‘’“”„…–—"\(\):;\[\]\\{}«»\-]+'
-    non_cyrillic = r'[\&\*0-9<>=@A-Za-z^`_|¬ії№]+'
+    non_cyrillic = r'[\&\*0-9<>=@A-Za-z^`_|¬ії№#$%]+'
     file = ' '.join(file.split())
     separators_expression = re.compile(separators)
     non_cyrillic_expression = re.compile(non_cyrillic)
@@ -26,3 +27,16 @@ def read_dataset(root):
 def read_file(filename):
     with open('r', filename) as input_file:
         input_file.read()
+
+
+def find_stress(word):
+    position = word.find("'")
+    if position == -1:
+        return -1
+    word = word.replace("'", '')
+    syllables = syllable.SyllableTrasformer.word_to_syllables(word)
+    cur_length = 0
+    for i, syl in enumerate(syllables):
+        cur_length += len(syl)
+        if cur_length + 1 >= position:
+            return i

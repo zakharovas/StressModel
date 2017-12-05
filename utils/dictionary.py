@@ -1,5 +1,5 @@
 class EncodingDictionary:
-    def __init__(self, dict_, begin, end, unc, sep):
+    def __init__(self, dict_, begin='START', end='END', unc='UNC', sep='SEP'):
         self._dict = dict_
         self._begin = begin
         self._end = end
@@ -29,3 +29,14 @@ class EncodingDictionary:
 
     def get_sep_char(self):
         return self._dict[self._sep]
+
+    @staticmethod
+    def read_dictionary(filename):
+        dict_ = dict()
+        with open(filename, 'r') as dict_file:
+            for line in dict_file:
+                print(line)
+                tag, code = line.split('$')
+                dict_[tag] = int(code)
+        return EncodingDictionary(dict_di)
+
