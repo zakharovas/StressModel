@@ -2,10 +2,10 @@ import numpy as np
 
 from transform import syllable
 from utils import utils
+from tqdm import tqdm
 
 
 def encode_phrase(phrase, syl_dict, sep=' '):
-    print(phrase)
     words = phrase.split(sep)
     encoded = [syl_dict.get_begin_char()]
 
@@ -21,29 +21,28 @@ def encode_phrase(phrase, syl_dict, sep=' '):
     return encoded
 
 
-def encode_batch(batch, syl_dict):
-    return np.array([encode_phrase(phrase, syl_dict) for phrase in batch])
-
-
 def dataset_to_xy(dataset, suffix_len, syl_dict):
     data = []
     answer = []
-    for sentence in dataset:
+    for sentence in tqdm(dataset):
         for i, word in enumerate(sentence):
             if utils.find_stress(word) >= 0:
                 phrase = ''
-                prev_length = 1
                 position = utils.find_stress(word)
+                prev_length = 1
                 if i > 0:
                     previous = sentence[i - 1].replace("'", '')[-suffix_len:]
                     prev_length = len(
                         encode_phrase(previous, syl_dict))
                     phrase = previous + ' ' + word.replace("'", '')
                 else:
-                    phrase = word.replace("'", '')
+                    phrase = ' ' + word.replace("'", '')
                 if i < len(sentence) - 1:
                     next = sentence[i + 1].replace("'", '')[-suffix_len:]
                     phrase += ' ' + next
+                else:
+                    phrase += ' '
+                #print(phrase)
                 x = encode_phrase(phrase, syl_dict)
                 y = position + prev_length
                 data.append(x)

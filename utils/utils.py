@@ -31,7 +31,7 @@ def read_file(filename):
 
 def find_stress(word):
     position = word.find("'")
-    if position == -1:
+    if position == -1 or len(word) < 2:
         return -1
     word = word.replace("'", '')
     syllables = syllable.SyllableTrasformer.word_to_syllables(word)

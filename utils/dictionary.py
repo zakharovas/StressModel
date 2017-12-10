@@ -7,13 +7,19 @@ class EncodingDictionary:
         self._sep = sep
 
     def __call__(self, element):
-        return self._dict[element]
+        if element in self._dict:
+            return self._dict[element]
+        else:
+            return self.get_unc_char()
 
     def __len__(self):
         return len(self._dict)
 
     def __getitem__(self, item):
-        return self._dict[item]
+        if item in self._dict:
+            return self._dict[item]
+        else:
+            return self.get_unc_char()
 
     def __contains__(self, item):
         return item in self._dict
@@ -35,8 +41,7 @@ class EncodingDictionary:
         dict_ = dict()
         with open(filename, 'r') as dict_file:
             for line in dict_file:
-                print(line)
                 tag, code = line.split('$')
                 dict_[tag] = int(code)
-        return EncodingDictionary(dict_di)
+        return EncodingDictionary(dict_)
 

@@ -1,9 +1,9 @@
 from transform import syllable
 
+
 def main():
-    while True:
-        a = input()
-        print(syllable.SyllableTrasformer.word_to_syllables(a))
+    pass
+    #model =
 
 
 if __name__ == "__main__":
